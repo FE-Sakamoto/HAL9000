@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <link rel="stylesheet" href="./index.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Cutive+Mono"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="main">
+      Hi, I'm Yu, a FE coder from China.
+      <br />
+      Try to find more infomation about me!
+      <br />
+      Type 'help' to get help.
+      <br />Have fun :-)
+      <br />
+      <br />
+      <span class="info">
+        YShell9000
+        <br />
+        Have a good day
+      </span>
+      <br />
+      <div class="content"><br /></div>
+      <div class="input-lable">
+        <span class="prefix">
+          <span>[</span>
+          <span id="usr">usr</span>
+          <span>@axton.cc </span>
+          <span id="position">~</span>
+          <span>]#</span>
+        </span>
+        <span class="preblank">&nbsp;</span
+        ><span
+          class="input-text"
+          contenteditable=""
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+        ></span>
+        <span id="ac-tip"></span><span class="catmode">&nbsp;</span>
+        <div class="soft-keyboard-fill soft-keyboard"></div>
+        <canvas id="matrix" style="background: #000;">
+          your browser not support canavs
+        </canvas>
+      </div>
+    </div>
+    <script src="./index.js"></script>
+    <script src="./matrix.js"></script>
+  </body>
+</html>
