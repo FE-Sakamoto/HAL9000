@@ -45,3 +45,13 @@ body ::selection {
 .help-item {
   padding-right: 30px;
 }
+
+
+#matrix {
+  background: #000;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}

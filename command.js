@@ -15,6 +15,9 @@ function exec(command, argument, option){
     case 'help':
       help()
       break
+    case 'matrix':
+      matrix()
+      break
     default:
       throw `command not found`
   }

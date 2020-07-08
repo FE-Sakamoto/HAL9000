@@ -1,12 +1,22 @@
 let input
 let inputTip
 let currentPath = '/usr'
+let currentBin
 
-function registerKeyBoardEventListener(){
+function registerKeyBoardEventListener() {
+  document.onkeydown = function(e) {
+    if (e.keyCode === 39 || e.keyCode === 9) { // 右箭头 补全命令
+      input.text(input.text() + inputTip.text()) 
+      inputTip.text('')
+      keepLastIndex(input[0])
+    }
+  }
   document.onkeypress = function(e) {
     if ($('.input-text').is(':focus')) { // 已获得焦点
-      if (e.keyCode === 13) { // 输入了回车 执行命令
-        handleCommand(input.innerText)
+      if (e.keyCode === 3 && e.ctrlKey) { // ctrl + c
+
+      } else if (e.keyCode === 13) { // 输入了回车 执行命令
+        handleCommand(input.text())
         return false // return false 可以阻止默认行为,使回车输入无效
       }
     } else { // 未获得焦点,此次输入使其获取焦点
@@ -17,17 +27,17 @@ function registerKeyBoardEventListener(){
   }
 
   $('.input-text').on('input propertychange', function(){
-    inputTip.innerText = commandSuggest(input.innerText)
+    inputTip.text(commandSuggest(input.text()))
   })
 }
 
 
 // 执行命令
 function handleCommand(shellInput){
-  const last = $('.prefix')[0].innerText + ' ' + shellInput
+  const last = $('.prefix').text() + ' ' + shellInput
   pushHistory(last)
-  input.innerText = ''
-  inputTip.innerText = ''
+  input.text('')
+  inputTip.text('')
   const {command, argument, option} = parseCommand(shellInput)
   try {
     exec(command, argument, option)
@@ -57,7 +67,7 @@ function pushHistory(result){
 
 
 $(function(){
-  input = $('.input-text')[0]
-  inputTip = $('.input-tip')[0]
+  input = $('.input-text')
+  inputTip = $('.input-tip')
   registerKeyBoardEventListener()
 })

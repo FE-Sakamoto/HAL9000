@@ -1,5 +1,7 @@
 function matrix(){
-  const canvas = document.getElementById('matrix');
+  const canvas = document.createElement('canvas');
+  canvas.id = 'matrix'
+  document.getElementById('root').appendChild(canvas);
   const ctx = canvas.getContext('2d');
   const W = document.documentElement.clientWidth;
   const H = document.documentElement.clientHeight;
