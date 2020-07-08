@@ -1,50 +1,42 @@
-*{
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-} 
+* {
+  cursor: text;
+}
+
 
 body {
-  color: #00FF41;
-  background-color: #000;
   font-family: Cutive Mono,Courier New,Consolas,monospace!important;
-  margin: 0;
-  padding: 5px;
-  font-size: 17px;
-  overflow-x: hidden;
+  font-size: 17px!important;
 }
-
 body ::selection {
-  background-color: #00FF41;
-  color: #000;
+  background-color: #000000;
+  color: #ffffff;
 }
 
-#main {
+#root {
   line-height: 23px;
-  word-wrap: break-word;
 }
 
-.info {
-  color: #00FF414d;
+#shell-info {
+  color: #0000004d;
 }
 
-.prefix{
-  font-size: 0;
-}
 
-.prefix span{
+.input-text{
   font-size: 17px;
-}
-
-.input-text {
   outline: none;
+  padding-right: 0;
 }
 
-#matrix{
-  display: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
+.input-tip {
+  opacity: .3;
+}
+
+.ls{
+  display: inline-block;
+  box-sizing: border-box;
+  padding-right: 30px;
+}
+
+.ls-folder {
+  color: #228de4;
 }

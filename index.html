@@ -9,49 +9,20 @@
       href="https://fonts.googleapis.com/css?family=Cutive+Mono"
       rel="stylesheet"
     />
-    <title>Document</title>
+    <title>HAL9000</title>
   </head>
   <body>
-    <div id="main">
-      Hi, I'm Yu, a FE coder from China.
-      <br />
-      Try to find more infomation about me!
-      <br />
-      Type 'help' to get help.
-      <br />Have fun :-)
-      <br />
-      <br />
-      <span class="info">
-        YShell9000
-        <br />
-        Have a good day
-      </span>
-      <br />
-      <div class="content"><br /></div>
-      <div class="input-lable">
-        <span class="prefix">
-          <span>[</span>
-          <span id="usr">usr</span>
-          <span>@axton.cc </span>
-          <span id="position">~</span>
-          <span>]#</span>
-        </span>
-        <span class="preblank">&nbsp;</span
-        ><span
-          class="input-text"
-          contenteditable=""
-          spellcheck="false"
-          autocomplete="off"
-          autocorrect="off"
-        ></span>
-        <span id="ac-tip"></span><span class="catmode">&nbsp;</span>
-        <div class="soft-keyboard-fill soft-keyboard"></div>
-        <canvas id="matrix" style="background: #000;">
-          your browser not support canavs
-        </canvas>
+    <div id="root">
+      <p id='introduce'>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Beatae qui laboriosam modi maxime magni voluptate harum doloremque, <br>architecto aspernatur eaque vitae, quis dolorum ab explicabo numquam quasi mollitia vero minima?</p>
+      <p id="shell-info">The Shell run on HAL9000</p>
+      <div id="history"></div>
+      <div id="input">
+        <span class="prefix">[usr@axton.cc ~]#</span><span class="preblank">&nbsp;</span><span class="input-text" contenteditable spellcheck="false"></span><span class="input-tip"></span>
       </div>
     </div>
     <script src="./index.js"></script>
+    <script src="./tree.js"></script>
+    <script src="./command.js"></script>
     <script src="./matrix.js"></script>
   </body>
 </html>
