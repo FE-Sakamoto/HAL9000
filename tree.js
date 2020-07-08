@@ -1,13 +1,11 @@
 const tree = {
   'usr': {
-    path: 'usr',
     type: 'folder',
     subs: {
       'blog': {
         type: 'folder',
         subs: {
           'post_list.md': {
-            path: '/post_list.md',
             type: 'file'
           }
         }
@@ -15,8 +13,10 @@ const tree = {
       'bin': {
         type: 'folder',
         subs: {
-          'matrix.md': {
-            path: 'matrix.md',
+          'matrix.sh': {
+            type: 'file'
+          },
+          'AnswerToTheUltimateQuestionOfLife.sh': {
             type: 'file'
           }
         }
@@ -24,8 +24,7 @@ const tree = {
       'bin': {
         type: 'folder',
         subs: {
-          'matrix.md': {
-            path: 'matrix.md',
+          'matrix.sh': {
             type: 'file'
           }
         }
@@ -41,14 +40,19 @@ const tree = {
   }
 }
 
-function getTree(){
-  const paths = currentPath.split('/').slice(1)
+function getTree(path){
+  const subPaths = path.split('/').slice(1)
   let c_tree = tree
-  for (const path of paths) {
-    c_tree = c_tree[path]
+  for (const subPath of subPaths) {
+    c_tree = c_tree[subPath]
     if (!c_tree) {
       throw 'No such file or directory'
     }
   }
   return c_tree
+}
+
+function pathSuggest(path){
+  console.log({path})
+  return ''
 }

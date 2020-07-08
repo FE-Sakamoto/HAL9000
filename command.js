@@ -12,13 +12,16 @@ function exec(command, argument, option){
     case 'clear':
       clear()
       break
+    case 'help':
+      help()
+      break
     default:
       throw `command not found`
   }
 }
 
 function ls(){
-  const tree = getTree()
+  const tree = getTree(currentPath)
   let r = ''
   for (const key in tree.subs) {
     const subTree = tree.subs[key]
@@ -31,3 +34,24 @@ function clear(){
   $('#history').empty()
 }
 
+function commandSuggest(str) {
+  let suggestion = ''
+  if (str.length) {
+    commands.some((command)=> {
+      if (command.indexOf(str) === 0) {
+        suggestion = command.replace(str, '')
+        return true
+      }
+      return false
+    })
+  }
+  return suggestion
+}
+
+function help(){
+  let r = ''
+  for (const command of commands) {
+    r += `<span class='help-item'>${command}</span>`
+  }
+  pushHistory(r)
+}

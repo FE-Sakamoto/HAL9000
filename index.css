@@ -37,6 +37,11 @@ body ::selection {
   padding-right: 30px;
 }
 
+
 .ls-folder {
   color: #228de4;
+}
+
+.help-item {
+  padding-right: 30px;
 }

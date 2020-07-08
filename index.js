@@ -17,23 +17,10 @@ function registerKeyBoardEventListener(){
   }
 
   $('.input-text').on('input propertychange', function(){
-    suggest(input.innerText)
+    inputTip.innerText = commandSuggest(input.innerText)
   })
 }
 
-function suggest(str){
-  let suggestion = ''
-  if (str.length) {
-    commands.some((command)=>{
-      if (command.indexOf(str) === 0){
-        suggestion = command.replace(str, '')
-        return true
-      }
-      return false
-    })
-  }
-  inputTip.innerText = suggestion
-}
 
 // 执行命令
 function handleCommand(shellInput){
