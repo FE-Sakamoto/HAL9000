@@ -1,4 +1,4 @@
-import { PATH_ROOT, PATH_HOME } from './const'
+import { PATH_ROOT, PATH_HOME, ERROR_CODE_NOT_DIR } from './const'
 
 let currentPath = PATH_HOME
 
@@ -87,7 +87,7 @@ function goToParentDir(path: string) {
  * example ~ -> /usr
  * example currentPath = /usr ./blog -> /usr/blog
  */
-function completePath(path: string): string {
+export function completePath(path: string): string {
   const paths = addSlash(path).split('/').slice(0, -1)
   let current = getCurrentPath()
   if (paths[0] === '') {
@@ -114,46 +114,42 @@ function completePath(path: string): string {
   return current
 }
 
-/**
- *
- * @param {string} path
- * @return {File}
- */
-function getFileWithPath(path) {
-  let dir = root
+export function getFileWithPath(path: string): File {
+  let file = root
   if (path === '/') {
-    return dir
+    return file
   }
   const paths = path.split('/').slice(1)
   paths.forEach((pathItem) => {
-    dir.content.some((subFile) => {
-      if (subFile.name === pathItem || subFile.comm_name === pathItem) {
-        if (subFile.type === FILE_TYPE_DIR) {
-          dir = subFile
-        } else {
-          throw ERROR_CODE_NOT_DIR
+    if (file.type === 'dir') {
+      file.content.some((subFile) => {
+        if (subFile.name === pathItem || subFile.alias === pathItem) {
+          file = subFile
+          return true
         }
-        return true
-      }
-      return false
-    })
+        return false
+      })
+    } else {
+      throw ERROR_CODE_NOT_DIR
+    }
   })
-
-  return dir
+  return file
 }
 
-function suggestPath(path = '') {
+export function suggestPath(path = ''): string {
   const absoultePath = completePath(path)
   const paths = absoultePath.split('/')
   const lastPath = paths.pop()
-  const dir = getFileWithPath(paths.join('/'))
   let res = ''
-  if (dir.type === FILE_TYPE_DIR) {
-    for (let i = 0; i < dir.content.length; i++) {
-      const { name } = dir.content[i]
-      if (name.indexOf(lastPath) === 0) {
-        res = name.substr(lastPath.length)
-        break
+  if (lastPath) {
+    const dir = getFileWithPath(paths.join('/'))
+    if (dir.type === 'dir') {
+      for (let i = 0; i < dir.content.length; i += 1) {
+        const { name } = dir.content[i]
+        if (name.indexOf(lastPath) === 0) {
+          res = name.substr(lastPath.length)
+          break
+        }
       }
     }
   }

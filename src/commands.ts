@@ -1,20 +1,29 @@
+import $ from 'jquery'
+import { completePath, getFileWithPath } from './file'
+import { ERROR_CODE_NOT_DIR } from './const'
+import { pushHistory } from './utils'
+
 const commands = ['cd', 'ls', 'cat', 'uname', 'clear', 'screenfetch', 'logout', 'reboot', 'help', 'matrix']
 
 function ls(path = './') {
   let r = ''
   const absoultePath = completePath(path)
   const dir = getFileWithPath(absoultePath)
-  dir.content.forEach((file) => {
-    r += `<span class='ls ${file.type === 'dir' ? 'ls-dir' : 'ls-file'}'>${file.name}</span>`
-  })
-  pushHistory(r)
+  if (dir.type === 'dir') {
+    dir.content.forEach((file) => {
+      r += `<span class='ls ${file.type === 'dir' ? 'ls-dir' : 'ls-file'}'>${file.name}</span>`
+    })
+    pushHistory(r)
+  } else {
+    throw ERROR_CODE_NOT_DIR
+  }
 }
 
 function clear() {
   $('#history').empty()
 }
 
-function commandSuggest(str) {
+export function commandSuggest(str: string) {
   let suggestion = ''
   if (str.length) {
     commands.some((command) => {
@@ -30,14 +39,28 @@ function commandSuggest(str) {
 
 function help() {
   let r = ''
-  for (const command of commands) {
+  commands.forEach((command) => {
     r += `<span class='help-item'>${command}</span>`
-  }
+  })
   pushHistory('You can use following commands:')
   pushHistory(r)
 }
 
-export function exec(command = '', argument = '') {
+// 命令拆解
+export function parseCommand(shellInput: string) {
+  const args = shellInput.split(' ').filter((arg) => arg.length)
+  const command = args[0]
+  const argument = args[1]
+  const option = args[2]
+  return {
+    command,
+    argument,
+    option,
+  }
+}
+
+export function exec(command = '', argument = '', option = '') {
+  console.log({ command, argument, option })
   switch (command) {
     case '':
       break
@@ -55,9 +78,9 @@ export function exec(command = '', argument = '') {
       help()
       break
     case 'matrix':
-      matrix()
+      // matrix()
       break
     default:
-      throw `bash: command not found: ${command}`
+      throw new Error(`bash: command not found: ${command}`)
   }
 }
