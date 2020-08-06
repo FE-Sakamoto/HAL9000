@@ -1,4 +1,4 @@
-function matrix(){
+export function matrix(){
   const canvas = document.createElement('canvas');
   canvas.id = 'matrix';
   document.getElementById('root').appendChild(canvas);

@@ -1,0 +1,57 @@
+* {
+  cursor: text;
+}
+
+
+body {
+  font-family: Cutive Mono,Courier New,Consolas,monospace!important;
+  font-size: 17px!important;
+}
+body ::selection {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+#root {
+  line-height: 23px;
+}
+
+#shell-info {
+  color: #0000004d;
+}
+
+
+.input-text{
+  font-size: 17px;
+  outline: none;
+  padding-right: 0;
+}
+
+.input-tip {
+  opacity: .3;
+}
+
+.ls{
+  display: inline-block;
+  box-sizing: border-box;
+  padding-right: 30px;
+}
+
+
+.ls-folder {
+  color: #228de4;
+}
+
+.help-item {
+  padding-right: 30px;
+}
+
+
+#matrix {
+  background: #000;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}

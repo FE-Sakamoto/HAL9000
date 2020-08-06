@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import './index.css'
 import { pushHistory, keepLastIndex } from './utils'
 import { parseCommand, commandSuggest, exec } from './commands'
 import { suggestPath } from './file'

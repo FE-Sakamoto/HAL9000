@@ -2,11 +2,14 @@
   "name": "shell",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "directories": {
     "example": "example"
   },
-  "scripts": {},
+  "scripts": {
+    "start": "webpack --config webpack.config.js",
+    "dev": "webpack-dev-server --open"
+  },
   "keywords": [],
   "author": "ycy2077 <bugmaker.yu@gmail.com> (https://github.com/ycy2077)",
   "license": "MIT",
@@ -14,15 +17,23 @@
     "@types/jquery": "^3.5.1",
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^4.2.0",
     "eslint": "^7.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.8",
-    "typescript": "^3.9.7"
+    "html-webpack-plugin": "^4.3.0",
+    "style-loader": "^1.2.1",
+    "typescript": "^3.9.7",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "ts-loader": "^8.0.2"
   }
 }

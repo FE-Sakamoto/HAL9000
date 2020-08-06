@@ -183,13 +183,11 @@ function autoComplete(input) {
     if (!found) {
         let fetchList = [];
         let fetchListRaw = false;
-        console.log({positionVi, positionRe})
         if (prsPath(comNeeded, false) !== false) {
             fetchListRaw = positionToObj(positionVi)
         } else if (comNeeded.indexOf("/") === -1) {
             fetchListRaw = positionToObj(positionRe)
         }
-        console.log({fetchListRaw})
         if (fetchListRaw["type"] === "dir" && fetchListRaw !== false) {
             $.extend(true, fetchList, fetchListRaw["content"]);
             if (fetchListRaw["name"] !== "/") {

@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import { matrix } from './matrix'
 import { completePath, getFileWithPath } from './file'
 import { ERROR_CODE_NOT_DIR } from './const'
 import { pushHistory } from './utils'
@@ -49,9 +50,9 @@ function help() {
 // 命令拆解
 export function parseCommand(shellInput: string) {
   const args = shellInput.split(' ').filter((arg) => arg.length)
-  const command = args[0]
-  const argument = args[1]
-  const option = args[2]
+  const command = args[0] && args[0].trim()
+  const argument = args[1] && args[1].trim()
+  const option = args[2] && args[2].trim()
   return {
     command,
     argument,
@@ -78,7 +79,7 @@ export function exec(command = '', argument = '', option = '') {
       help()
       break
     case 'matrix':
-      // matrix()
+      matrix()
       break
     default:
       throw new Error(`bash: command not found: ${command}`)
