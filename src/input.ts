@@ -65,9 +65,11 @@ export function registerKeyBoardEventListener() {
 
   $('.input-text').on('input propertychange', () => {
     const inputs = input.text().split(' ')
-    inputTip.text(commandSuggest(inputs[0]))
-    if (inputs.length > 1) {
-      inputTip.text(suggestPath(inputs[1]))
+    const last = inputs.slice(-1)[0]
+    if (last.indexOf('.') === 0) {
+      inputTip.text(suggestPath(last))
+    } else {
+      inputTip.text(commandSuggest(last))
     }
   })
 }

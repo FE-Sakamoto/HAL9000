@@ -25,7 +25,7 @@ export function matrix(){
     }
     ctx.fillStyle = "rgba(0,0,0,0.05)";
     ctx.fillRect(0,0,W,H);
-    ctx.font = `500 ${fontSize}px Menlo`;
+    ctx.font = '500 ' + fontSize + 'px Menlo';
     ctx.fillStyle = '#00cc33';
     for (let i = 0; i < colums; i++){
       const index = charStart + Math.floor(Math.random() * (charEnd - charStart + 1));
