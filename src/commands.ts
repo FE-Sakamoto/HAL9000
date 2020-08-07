@@ -1,7 +1,9 @@
 import $ from 'jquery'
 import { matrix } from './matrix'
-import { completePath, getFileWithPath, setCurrentPath } from './file'
-import { ERROR_CODE_NOT_DIR } from './const'
+import {
+  completePath, getFileWithPath, setCurrentPath,
+} from './file'
+import { ERROR_NOT_DIR, ERROR_IS_A_DIR } from './const'
 import { pushHistory } from './utils'
 
 const commands = ['cd', 'ls', 'cat', 'uname', 'clear', 'screenfetch', 'logout', 'reboot', 'help', 'matrix']
@@ -16,18 +18,17 @@ function ls(path = './') {
     })
     pushHistory(r)
   } else {
-    throw ERROR_CODE_NOT_DIR
+    pushHistory(dir.name)
   }
 }
 
 function cd(path = './') {
   const absoultePath = completePath(path)
-
   const dir = getFileWithPath(absoultePath)
   if (dir.type === 'file') {
-    throw ERROR_CODE_NOT_DIR
+    throw ERROR_NOT_DIR
   }
-  setCurrentPath(dir.alias)
+  setCurrentPath(absoultePath, dir.alias)
 }
 
 function clear() {
@@ -70,6 +71,19 @@ export function parseCommand(shellInput: string) {
   }
 }
 
+function cat(path: string) {
+  if (!path) return
+  const absoultPath = completePath(path)
+  const file = getFileWithPath(absoultPath)
+
+  if (file.type === 'dir') {
+    throw ERROR_IS_A_DIR
+  } else if (file.type === 'file') {
+    pushHistory(file.content)
+  }
+  console.log('cat: ', { path })
+}
+
 export function exec(command = '', argument = '', option = '') {
   console.log({ command, argument, option })
   try {
@@ -83,6 +97,7 @@ export function exec(command = '', argument = '', option = '') {
         ls(argument)
         break
       case 'cat':
+        cat(argument)
         break
       case 'clear':
         clear()

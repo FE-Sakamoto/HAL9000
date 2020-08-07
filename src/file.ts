@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import {
-  PATH_ROOT, PATH_HOME, ERROR_CODE_NOT_DIR, ERROR_CODE_NO_SUCH_FILE_OR_DIR,
+  PATH_ROOT, PATH_HOME, ERROR_NOT_DIR, ERROR_NO_SUCH_FILE_OR_DIR,
 } from './const'
 
 let currentPath = PATH_HOME
@@ -9,9 +9,9 @@ export function getCurrentPath() {
   return currentPath
 }
 
-export function setCurrentPath(path: string) {
+export function setCurrentPath(path: string, alias: string) {
   currentPath = path
-  $('.current-path').text(path)
+  $('.current-path').text(alias)
 }
 
 export type File = {
@@ -52,21 +52,21 @@ const root: File = {
               alias: 'blog1',
               sudo: false,
               type: 'file',
-              content: 'blog1',
+              content: 'content: blog1',
             },
             {
               name: 'blog2',
               alias: 'blog2',
               sudo: false,
               type: 'file',
-              content: 'blog2',
+              content: 'content: blog2',
             },
             {
               name: 'blog3',
               alias: 'blog3',
               sudo: false,
               type: 'file',
-              content: 'blog3',
+              content: 'content: blog3',
             },
           ],
         },
@@ -156,10 +156,10 @@ export function getFileWithPath(path: string): File {
         return false
       })
       if (!some) {
-        throw ERROR_CODE_NO_SUCH_FILE_OR_DIR
+        throw ERROR_NO_SUCH_FILE_OR_DIR
       }
     } else {
-      throw ERROR_CODE_NOT_DIR
+      throw ERROR_NOT_DIR
     }
   })
   return file
