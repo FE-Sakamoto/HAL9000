@@ -1,4 +1,7 @@
-import { PATH_ROOT, PATH_HOME, ERROR_CODE_NOT_DIR } from './const'
+import $ from 'jquery'
+import {
+  PATH_ROOT, PATH_HOME, ERROR_CODE_NOT_DIR, ERROR_CODE_NO_SUCH_FILE_OR_DIR,
+} from './const'
 
 let currentPath = PATH_HOME
 
@@ -8,6 +11,7 @@ export function getCurrentPath() {
 
 export function setCurrentPath(path: string) {
   currentPath = path
+  $('.current-path').text(path)
 }
 
 export type File = {
@@ -42,7 +46,29 @@ const root: File = {
           alias: 'blog',
           sudo: false,
           type: 'dir',
-          content: [],
+          content: [
+            {
+              name: 'blog1',
+              alias: 'blog1',
+              sudo: false,
+              type: 'file',
+              content: 'blog1',
+            },
+            {
+              name: 'blog2',
+              alias: 'blog2',
+              sudo: false,
+              type: 'file',
+              content: 'blog2',
+            },
+            {
+              name: 'blog3',
+              alias: 'blog3',
+              sudo: false,
+              type: 'file',
+              content: 'blog3',
+            },
+          ],
         },
         {
           name: 'bin',
@@ -122,13 +148,16 @@ export function getFileWithPath(path: string): File {
   const paths = path.split('/').slice(1)
   paths.forEach((pathItem) => {
     if (file.type === 'dir') {
-      file.content.some((subFile) => {
+      const some = file.content.some((subFile) => {
         if (subFile.name === pathItem || subFile.alias === pathItem) {
           file = subFile
           return true
         }
         return false
       })
+      if (!some) {
+        throw ERROR_CODE_NO_SUCH_FILE_OR_DIR
+      }
     } else {
       throw ERROR_CODE_NOT_DIR
     }
@@ -137,6 +166,10 @@ export function getFileWithPath(path: string): File {
 }
 
 export function suggestPath(path = ''): string {
+  const last = path.split('/').slice(-1)[0]
+  if (last === '.' || last === '..') {
+    return '/'
+  }
   const absoultePath = completePath(path)
   const paths = absoultePath.split('/')
   const lastPath = paths.pop()

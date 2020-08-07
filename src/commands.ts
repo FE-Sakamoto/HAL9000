@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { matrix } from './matrix'
-import { completePath, getFileWithPath } from './file'
+import { completePath, getFileWithPath, setCurrentPath } from './file'
 import { ERROR_CODE_NOT_DIR } from './const'
 import { pushHistory } from './utils'
 
@@ -18,6 +18,16 @@ function ls(path = './') {
   } else {
     throw ERROR_CODE_NOT_DIR
   }
+}
+
+function cd(path = './') {
+  const absoultePath = completePath(path)
+
+  const dir = getFileWithPath(absoultePath)
+  if (dir.type === 'file') {
+    throw ERROR_CODE_NOT_DIR
+  }
+  setCurrentPath(dir.alias)
 }
 
 function clear() {
@@ -62,26 +72,31 @@ export function parseCommand(shellInput: string) {
 
 export function exec(command = '', argument = '', option = '') {
   console.log({ command, argument, option })
-  switch (command) {
-    case '':
-      break
-    case 'cd':
-      break
-    case 'ls':
-      ls(argument)
-      break
-    case 'cat':
-      break
-    case 'clear':
-      clear()
-      break
-    case 'help':
-      help()
-      break
-    case 'matrix':
-      matrix()
-      break
-    default:
-      throw new Error(`bash: command not found: ${command}`)
+  try {
+    switch (command) {
+      case '':
+        break
+      case 'cd':
+        cd(argument)
+        break
+      case 'ls':
+        ls(argument)
+        break
+      case 'cat':
+        break
+      case 'clear':
+        clear()
+        break
+      case 'help':
+        help()
+        break
+      case 'matrix':
+        matrix()
+        break
+      default:
+        throw new Error(`bash: command not found: ${command}`)
+    }
+  } catch (error) {
+    console.log({ error })
   }
 }
