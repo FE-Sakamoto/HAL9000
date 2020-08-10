@@ -23,3 +23,7 @@ export function keepLastIndex(obj: HTMLElement) {
     range.select()
   }
 }
+
+export function completeErrorMsg(command: string = 'bash', argument: string, msg: string) {
+  return `${command}: ${argument ? `${argument}: ` : ''}${msg}`
+}

@@ -1,7 +1,14 @@
 import $ from 'jquery'
-import { pushHistory, keepLastIndex } from './utils'
+import { pushHistory, keepLastIndex, completeErrorMsg } from './utils'
 import { parseCommand, commandSuggest, exec } from './commands'
 import { suggestPath } from './file'
+import {
+  ERROR_NOT_DIR,
+  ERROR_IS_A_DIR,
+  ERROR_ACCESS_DENIED,
+  ERROR_COMMAND_NOT_FOUND,
+  ERROR_NO_SUCH_FILE_OR_DIR,
+} from './const'
 
 let input: JQuery<HTMLDivElement>
 let inputTip: JQuery<HTMLSpanElement>
@@ -16,7 +23,34 @@ function handleCommand(shellInput: string) {
   const { command, argument, option } = parseCommand(shellInput)
   try {
     exec(command, argument, option)
-  } catch (errMsg) {
+  } catch (err) {
+    let errMsg = ''
+    switch (err) {
+      case ERROR_NOT_DIR:
+        errMsg = completeErrorMsg(command, argument, 'Not a directory')
+        break
+      case ERROR_IS_A_DIR:
+        errMsg = completeErrorMsg(command, argument, 'Is a directory')
+        break
+      case ERROR_ACCESS_DENIED:
+        errMsg = completeErrorMsg(command, argument, 'Access denied')
+        break
+      case ERROR_COMMAND_NOT_FOUND:
+        errMsg = completeErrorMsg('bash', command, 'command not found')
+        break
+      case ERROR_NO_SUCH_FILE_OR_DIR:
+        errMsg = completeErrorMsg(command, argument, 'No such file or directory')
+        break
+      default:
+        if (typeof err === 'string') {
+          errMsg = completeErrorMsg('bash', '', `${err}`)
+        } else if (err instanceof Error && err.message) {
+          errMsg = completeErrorMsg('bash', '', `${err.message}`)
+        } else {
+          errMsg = completeErrorMsg('bash', '', 'unknow error')
+        }
+        break
+    }
     pushHistory(errMsg)
   }
   $('body,html').animate({

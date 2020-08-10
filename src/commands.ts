@@ -109,36 +109,34 @@ export function parseCommand(shellInput: string) {
 
 export function exec(command = '', argument = '', option = '') {
   console.log({ command, argument, option })
-  try {
-    switch (command) {
-      case '':
-        break
-      case 'cd':
-        commandCd(argument)
-        break
-      case 'ls':
-        commandLs(argument)
-        break
-      case 'cat':
-        commandCat(argument)
-        break
-      case 'clear':
-        commandClear()
-        break
-      case 'help':
-        commandHelp()
-        break
-      case 'matrix':
-        matrix()
-        break
-      case 'uname':
-        commandUname()
-        break
-      default:
+  switch (command) {
+    case '':
+      break
+    case 'cd':
+      commandCd(argument)
+      break
+    case 'ls':
+      commandLs(argument)
+      break
+    case 'cat':
+      commandCat(argument)
+      break
+    case 'clear':
+      commandClear()
+      break
+    case 'help':
+      commandHelp()
+      break
+    case 'matrix':
+      matrix()
+      break
+    case 'uname':
+      commandUname()
+      break
+    default:
+      if (/^\.?\//.test(command)) {
         commandBin(command)
-        break
-    }
-  } catch (error) {
-    console.log({ error })
+      }
+      throw ERROR_COMMAND_NOT_FOUND
   }
 }
