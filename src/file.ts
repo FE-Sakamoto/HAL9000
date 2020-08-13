@@ -84,7 +84,13 @@ const root: File = {
               alias: 'sayHello.bin',
               sudo: false,
               type: 'file',
-              content: 'console.log("hello")',
+              content: `
+              (function(){
+                return function(name = ''){
+                  return 'hello ' + name
+                }
+              })()
+              `,
             },
             {
               name: 'matrix.bin',

@@ -78,7 +78,7 @@ export function commandSuggest(str: string) {
   return suggestion
 }
 
-function commandFile(path: string) {
+function commandFile(path: string, argument: string) {
   const absolutPath = completePath(path)
   const file = getFileWithPath(absolutPath)
   if (file) {
@@ -86,7 +86,11 @@ function commandFile(path: string) {
       commandCd(path)
     } else if (file.type === 'file') {
       if (file.name.substr(-4) === '.bin') {
-        setTimeout(file.content, 0)
+        setTimeout(() => {
+          // eslint-disable-next-line no-eval
+          const sayHello = eval(file.content)
+          pushHistory(sayHello(argument))
+        }, 0)
       } else {
         throw ERROR_PERMISSION_DENIED
       }
@@ -138,6 +142,6 @@ export function exec(command = '', argument = '', option = '') {
       commandUname()
       break
     default:
-      commandFile(command)
+      commandFile(command, argument)
   }
 }
