@@ -58,7 +58,6 @@ function commandCat(path: string) {
   } else if (file.type === 'file') {
     pushHistory(file.content)
   }
-  console.log('cat: ', { path })
 }
 
 function commandUname() {
