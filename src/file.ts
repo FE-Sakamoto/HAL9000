@@ -1,6 +1,9 @@
 import $ from 'jquery'
 import {
-  PATH_ROOT, PATH_HOME, ERROR_NOT_DIR, ERROR_NO_SUCH_FILE_OR_DIR,
+  PATH_ROOT,
+  PATH_HOME,
+  ERROR_NOT_DIR,
+  ERROR_NO_SUCH_FILE_OR_DIR,
 } from './const'
 
 let currentPath = PATH_HOME
@@ -15,19 +18,19 @@ export function setCurrentPath(path: string, alias: string) {
 }
 
 export type File = {
-  name: string
-  alias: string
-  sudo: boolean
+  name: string;
+  alias: string;
+  sudo: boolean;
 } & (
-  {
-    type: 'dir',
-    content: File[]
-  } |
-  {
-    type: 'file',
-    content: string
+  | {
+    type: 'dir';
+    content: File[];
   }
-)
+  | {
+    type: 'file';
+    content: string;
+  }
+);
 
 const root: File = {
   name: '/',
@@ -89,7 +92,6 @@ const root: File = {
               sudo: false,
               type: 'file',
               content: `
-
 (function(){
   function matrix(){
     const canvas = document.createElement('canvas');
@@ -195,7 +197,8 @@ export function completePath(path: string): string {
       case '..': // go to parent path
         current = goToParentDir(current)
         break
-      default: // go to sub path
+      default:
+        // go to sub path
         current = addSlash(current)
         current += `${subPath}`
         break
@@ -231,14 +234,12 @@ export function getFileWithPath(path: string): File {
 
 export function suggestPath(path = ''): string {
   const last = path.split('/').slice(-1)[0]
-  if (last === '.' || last === '..') {
-    return '/'
-  }
-  const absoultePath = completePath(path)
+  if (last === '.' || last === '..') return '/'
+  const absoultePath = `${completePath(path)}${last === '' ? '/' : ''}`
   const paths = absoultePath.split('/')
   const lastPath = paths.pop()
   let res = ''
-  if (lastPath) {
+  if (lastPath !== undefined) {
     const dir = getFileWithPath(paths.join('/'))
     if (dir.type === 'dir') {
       for (let i = 0; i < dir.content.length; i += 1) {
