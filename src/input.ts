@@ -6,6 +6,7 @@ import {
   ERROR_NOT_DIR,
   ERROR_IS_A_DIR,
   ERROR_ACCESS_DENIED,
+  ERROR_PERMISSION_DENIED,
   ERROR_COMMAND_NOT_FOUND,
   ERROR_NO_SUCH_FILE_OR_DIR,
 } from './const'
@@ -40,6 +41,9 @@ function handleCommand(shellInput: string) {
         break
       case ERROR_NO_SUCH_FILE_OR_DIR:
         errMsg = completeErrorMsg(command, argument, 'No such file or directory')
+        break
+      case ERROR_PERMISSION_DENIED:
+        errMsg = completeErrorMsg('bash', 'permission denied', command)
         break
       default:
         if (typeof err === 'string') {
@@ -100,7 +104,7 @@ export function registerKeyBoardEventListener() {
   $('.input-text').on('input propertychange', () => {
     const inputs = input.text().split(' ')
     const last = inputs.slice(-1)[0]
-    if (last.indexOf('.') === 0) {
+    if (inputs.length > 1 || last.indexOf('.') === 0) {
       inputTip.text(suggestPath(last))
     } else {
       inputTip.text(commandSuggest(last))

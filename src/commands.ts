@@ -4,11 +4,14 @@ import {
   completePath, getFileWithPath, setCurrentPath,
 } from './file'
 import {
-  ERROR_NOT_DIR, ERROR_IS_A_DIR, ERROR_COMMAND_NOT_FOUND, ERROR_NO_SUCH_FILE_OR_DIR,
+  ERROR_PERMISSION_DENIED,
+  ERROR_COMMAND_NOT_FOUND,
+  ERROR_NO_SUCH_FILE_OR_DIR,
+  ERROR_NOT_DIR, ERROR_IS_A_DIR,
 } from './const'
 import { pushHistory } from './utils'
 
-const commands = ['cd', 'ls', 'cat', 'uname', 'clear', 'help', 'matrix']
+const commands = ['cd', 'ls', 'cat', 'uname', 'clear', 'help']
 
 function commandLs(path = './') {
   let r = ''
@@ -76,7 +79,7 @@ export function commandSuggest(str: string) {
   return suggestion
 }
 
-function commandBin(path: string) {
+function commandFile(path: string) {
   const absolutPath = completePath(path)
   const file = getFileWithPath(absolutPath)
   if (file) {
@@ -86,11 +89,13 @@ function commandBin(path: string) {
       if (file.name.substr(-4) === '.bin') {
         setTimeout(file.content, 0)
       } else {
-        throw ERROR_COMMAND_NOT_FOUND
+        throw ERROR_PERMISSION_DENIED
       }
     }
-  } else {
+  } else if (/\.(\.)?\//.test(path)) {
     throw ERROR_NO_SUCH_FILE_OR_DIR
+  } else {
+    throw ERROR_COMMAND_NOT_FOUND
   }
 }
 
@@ -134,9 +139,6 @@ export function exec(command = '', argument = '', option = '') {
       commandUname()
       break
     default:
-      if (/^\.?\//.test(command)) {
-        commandBin(command)
-      }
-      throw ERROR_COMMAND_NOT_FOUND
+      commandFile(command)
   }
 }
